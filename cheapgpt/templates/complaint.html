@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <p>Cuentanos tu drama. Prometemos leerlo (eventualmente).</p>
+
+  {% if ticket %}
+    <p>Ticket creado: <span class="ticket-id">{{ ticket.id }}</span></p>
+    <p>{{ ticket.auto_reply }}</p>
+  {% endif %}
+
+  {% if error %}
+    <p><strong>Error:</strong> {{ error }}</p>
+  {% endif %}
+
+  <form method="post">
+    <label for="name">Nombre</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" required>
+
+    <label for="message">Mensaje</label>
+    <textarea name="message" id="message" rows="3" required></textarea>
+
+    <label for="is_premium">
+      <input type="checkbox" name="is_premium" id="is_premium"> Soy cliente premium
+    </label>
+
+    <label for="language">Idioma de la respuesta</label>
+    <select name="language" id="language">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+    </select>
+
+    <button type="submit">Enviar reclamo</button>
+  </form>
+{% endblock %}

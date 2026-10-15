@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>cheapGPT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='intro.css') }}">
+  <script>
+    // Si la intro ya se vio en esta pestaña, se oculta antes de dibujar la página.
+    // sessionStorage es por pestaña: cada pestaña nueva vuelve a mostrar la intro.
+    try {
+      if (sessionStorage.getItem("cheapgpt-intro-seen")) {
+        document.documentElement.classList.add("intro-seen");
+      }
+    } catch (e) {}
+  </script>
+  <style>
+    /*
+     * Estilo "Web 2.0" de 2007: degradados brillantes, botones con reflejo,
+     * sello BETA y diseño fijo para pantallas de 1024x768.
+     */
+    :root {
+      --blue: #3b7fd4;
+      --blue-dark: #1d4f94;
+      --blue-light: #d9e8fb;
+      --orange: #ff8a00;
+      --orange-dark: #d45f00;
+      --border: #9db6d6;
+      --text: #333;
+      --muted: #666;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 20px 0 40px;
+      box-sizing: border-box;
+      font-family: Verdana, Tahoma, Arial, sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      /* Fondo celeste con rayitas diagonales, muy de la época. */
+      background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.35) 0 2px, transparent 2px 6px),
+        linear-gradient(180deg, #a8cdf0 0%, #e6f1fb 400px, #e6f1fb 100%);
+      background-attachment: fixed;
+    }
+
+    /* Todo el sitio vive en una caja de ancho fijo, centrada. */
+    .page {
+      width: 760px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 12px rgba(0, 40, 90, 0.35);
+    }
+
+    /* ---------- Encabezado brillante ---------- */
+
+    header.site {
+      position: relative;
+      padding: 22px 24px 18px;
+      color: #fff;
+      background: linear-gradient(180deg, #5b9ee8 0%, var(--blue) 50%, var(--blue-dark) 51%, #2a64b0 100%);
+      border-bottom: 3px solid var(--orange);
+    }
+
+    header.site h1 {
+      margin: 0;
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      font-size: 34px;
+      letter-spacing: -1px;
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.35);
+      /* El reflejo bajo el logo: el truco estrella de 2007. */
+      -webkit-box-reflect: below -8px linear-gradient(transparent 55%, rgba(255, 255, 255, 0.35));
+    }
+
+    header.site h1 .c { color: var(--orange); }
+
+    header.site p {
+      margin: 6px 0 0;
+      font-size: 12px;
+      color: #dbe9fb;
+    }
+
+    /* Sello "BETA" pegado en la esquina. */
+    .beta {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      padding: 4px 12px;
+      transform: rotate(8deg);
+      background: linear-gradient(180deg, #ffd24d, #ff9f00);
+      border: 2px solid #fff;
+      border-radius: 4px;
+      color: #7a3a00;
+      font: bold 13px "Trebuchet MS", Verdana, sans-serif;
+      box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ---------- Menú de pestañas ---------- */
+
+    nav {
+      display: flex;
+      gap: 4px;
+      padding: 10px 16px 0;
+      background: var(--blue-light);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav a {
+      position: relative;
+      padding: 7px 16px;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      background: linear-gradient(180deg, #fff 0%, #e3eefb 50%, #cfe0f5 51%, #e6f0fb 100%);
+      color: var(--blue-dark);
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav a:hover { text-decoration: underline; }
+
+    nav a.active {
+      margin-bottom: -1px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    /* Estrellita "¡NUEVO!" al lado de una pestaña. */
+    .new {
+      position: absolute;
+      top: -12px;
+      right: -14px;
+      padding: 2px 4px;
+      background: #e8001c;
+      color: #fff;
+      font-size: 9px;
+      transform: rotate(12deg);
+      border-radius: 3px;
+    }
+
+    /* ---------- Contenido ---------- */
+
+    .card { padding: 20px 24px 24px; }
+
+    .card > p:first-child {
+      margin: 0 0 12px;
+      padding: 8px 10px;
+      background: #fffbe0;
+      border: 1px dashed #e5c100;
+      color: #6b5a00;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 4px;
+      font-weight: bold;
+      color: var(--blue-dark);
+    }
+
+    label input[type="checkbox"] { vertical-align: middle; }
+
+    /* Campos al estilo Windows XP. */
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px;
+      border: 1px solid #7f9db9;
+      font: 13px Verdana, Tahoma, Arial, sans-serif;
+    }
+
+    /* Botón naranja con brillo, tipo "¡Regístrate gratis!". */
+    button {
+      margin-top: 14px;
+      padding: 7px 22px;
+      border: 1px solid var(--orange-dark);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffc46b 0%, var(--orange) 50%, #f07400 51%, #ff9c2b 100%);
+      color: #fff;
+      font: bold 13px Verdana, Tahoma, Arial, sans-serif;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    button:hover { filter: brightness(1.08); }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    th, td { padding: 6px; border: 1px solid var(--border); text-align: center; }
+
+    th { background: linear-gradient(180deg, #fff, var(--blue-light)); color: var(--blue-dark); }
+
+    tbody tr:nth-child(even) td { background: #f3f8fe; }
+
+    /* ---------- Chat, al estilo MSN Messenger ---------- */
+
+    .history { margin-top: 18px; border: 1px solid var(--border); padding: 8px 10px; background: #fff; }
+
+    .history:not(:has(.message)) { display: none; }
+
+    .message { margin: 6px 0 10px; white-space: pre-wrap; }
+
+    .message::before { display: block; margin-bottom: 2px; font-size: 11px; color: var(--muted); }
+
+    .message.user::before { content: "Tú dices:"; }
+
+    .message.assistant::before { content: "cheapGPT dice:"; }
+
+    .message.assistant { color: var(--blue-dark); }
+
+    /* ---------- Avisos, tickets y excusas ---------- */
+
+    .notice {
+      margin: 14px 0 0;
+      padding: 6px 10px;
+      background: #eaf4ff;
+      border: 1px solid var(--border);
+    }
+
+    .notice.error { background: #ffe9e9; border-color: #e08a8a; color: #a30000; }
+
+    .ticket-id { font-weight: bold; color: #e8001c; }
+
+    .excuse {
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      background: #fffbe0;
+      border: 2px solid #e5c100;
+    }
+
+    .excuse p { margin: 4px 0; }
+
+    /* ---------- Pie de página ---------- */
+
+    footer.site {
+      padding: 12px 24px;
+      background: var(--blue-light);
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 10px;
+      text-align: center;
+    }
+
+    footer.site p { margin: 4px 0; }
+
+    /* Contador de visitas con dígitos de "odómetro". */
+    .counter span {
+      display: inline-block;
+      width: 11px;
+      margin: 0 1px;
+      background: #000;
+      color: #3f3;
+      font: bold 11px "Courier New", monospace;
+    }
+
+    /* Botoncitos de 80x15 que todos los sitios tenían al final. */
+    .badges span {
+      display: inline-block;
+      margin: 4px 2px 0;
+      padding: 1px 5px;
+      border: 1px solid #999;
+      background: #f5f5f5;
+      font: 9px Verdana, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="intro">
+    <div class="intro-glow" aria-hidden="true"></div>
+    <div class="intro-content">
+      <div class="intro-logo" aria-label="cheapGPT">
+        <span class="intro-c-slot"></span><span class="intro-rest" aria-hidden="true">heapGPT</span>
+      </div>
+      <p class="intro-tagline">
+        Servicio al cliente. Reimaginado.
+        <small>Desde $1. Sin garantía.</small>
+      </p>
+    </div>
+    <div class="intro-coin" aria-hidden="true">
+      <div class="intro-coin-spin">
+        <div class="intro-edge"></div>
+        <div class="intro-face back"><div class="intro-rim"></div><div class="intro-disc">$1</div></div>
+        <div class="intro-face front"><div class="intro-rim"></div><div class="intro-disc">$1</div></div>
+      </div>
+    </div>
+    <button type="button" class="intro-skip">Saltar intro</button>
+  </div>
+  <div class="page">
+    <header class="site">
+      <h1><span class="c">c</span>heapGPT</h1>
+      <p>Servicio al cliente low-cost</p>
+      <span class="beta">BETA</span>
+    </header>
+    <nav>
+      <a href="{{ url_for('chat') }}" {% if request.path == url_for('chat') %}class="active"{% endif %}>Chat</a>
+      <a href="{{ url_for('plans') }}" {% if request.path == url_for('plans') %}class="active"{% endif %}>Planes</a>
+      <a href="{{ url_for('complaint') }}" {% if request.path == url_for('complaint') %}class="active"{% endif %}>Reclamo</a>
+      <a href="{{ url_for('excuses') }}" {% if request.path == url_for('excuses') %}class="active"{% endif %}>Excusas <span class="new">¡NUEVO!</span></a>
+    </nav>
+    <div class="card">
+      {% block content %}{% endblock %}
+    </div>
+    <footer class="site">
+      <p class="counter">Eres el visitante N° <span>0</span><span>0</span><span>4</span><span>8</span><span>2</span></p>
+      <p>© 2007 cheapGPT S.A. (en trámite) · Mejor visto en Internet Explorer 7 a 1024x768</p>
+      <p class="badges"><span>Web 2.0</span><span>XHTML 1.0</span><span>RSS</span><span>Hecho con Notepad</span></p>
+    </footer>
+  </div>
+  <script src="{{ url_for('static', filename='intro.js') }}"></script>
+</body>
+</html>

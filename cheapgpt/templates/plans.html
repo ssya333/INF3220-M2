@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+  <p>Nuestros planes: baratos, mas baratos y "premium" (entre comillas).</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Plan</th>
+        <th>1 mes</th>
+        <th>6 meses</th>
+        <th>12 meses</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.label }}</td>
+          <td>${{ row.price_1 }}</td>
+          <td>${{ row.price_6 }}</td>
+          <td>${{ row.price_12 }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

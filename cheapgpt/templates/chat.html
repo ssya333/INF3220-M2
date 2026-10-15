@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+  <p>El chat de servicio al cliente mas barato (y mas chistoso) del mercado.</p>
+
+  <form method="post">
+    <label for="mood">Humor del bot</label>
+    <select name="mood" id="mood">
+      {% for m in moods %}
+        <option value="{{ m }}" {% if m == mood %}selected{% endif %}>{{ m|capitalize }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="plan">Tu plan</label>
+    <select name="plan" id="plan">
+      {% for value, label in plans.items() %}
+        <option value="{{ value }}" {% if value == plan %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="is_student">
+      <input type="checkbox" name="is_student" id="is_student" {% if is_student %}checked{% endif %}> Soy estudiante
+    </label>
+
+    <label for="message">Tu mensaje</label>
+    <textarea name="message" id="message" rows="3" required></textarea>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  {% if error %}
+    <p class="notice error"><strong>Error:</strong> {{ error }}</p>
+  {% elif remaining is not none %}
+    <p class="notice">Te quedan {{ remaining }} mensaje(s) hoy.</p>
+  {% endif %}
+
+  <div class="history">
+    {% for msg in history %}
+      <div class="message {{ msg.role }}">{{ msg.content }}</div>
+    {% endfor %}
+  </div>
+{% endblock %}

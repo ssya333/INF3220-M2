@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+  <p>¿Algo no funciona? Gira la ruleta y recibe una excusa oficial de cheapGPT.</p>
+
+  {% if excuse %}
+    <div class="excuse">
+      <p><span class="ticket-id">Excusa oficial N° {{ "%03d"|format(excuse.number) }}</span></p>
+      <p>{{ excuse.text }}</p>
+    </div>
+  {% endif %}
+
+  {% if error %}
+    <p class="notice error"><strong>Error:</strong> {{ error }}</p>
+  {% endif %}
+
+  {% if most_affected %}
+    <p class="notice">Servicio mas caido hoy: {{ most_affected }}.</p>
+  {% endif %}
+
+  <form method="post">
+    <label for="name">Nombre</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="plan">Tu plan</label>
+    <select name="plan" id="plan">
+      {% for value, label in plans.items() %}
+        <option value="{{ value }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="months_as_customer">Meses como cliente</label>
+    <input type="number" name="months_as_customer" id="months_as_customer" min="0" value="0" required>
+
+    <label for="service">¿Que se cayo?</label>
+    <select name="service" id="service">
+      {% for value, label in services.items() %}
+        <option value="{{ value }}">{{ label|capitalize }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="severity">Gravedad</label>
+    <select name="severity" id="severity">
+      {% for value, label in severities.items() %}
+        <option value="{{ value }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="days_down">Dias que lleva caido</label>
+    <input type="number" name="days_down" id="days_down" min="0" value="0" required>
+
+    <button type="submit">Girar la ruleta</button>
+  </form>
+{% endblock %}

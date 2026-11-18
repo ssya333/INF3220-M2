@@ -618,8 +618,12 @@ Las reglas de la [sección 8](#8-ronda-1-y-ronda-2) no cambian.
 
     ![Push del merge](docs/img/26-desktop-push-merge.png)
 
-13. Revisen en GitHub que llegaron sus cambios y que el check de **Actions** esté en
-    verde.
+13. Revisen en GitHub que llegaron sus cambios y esperen el resultado de **Actions**
+    (tarda uno o dos minutos después del push): tiene que quedar en **verde**. Si queda en
+    rojo, el merge o algún refactoring rompió algo: entren a la pestaña **Actions** para
+    ver qué test falló, arréglenlo, corran `pytest`, hagan commit y vuelvan a hacer push.
+    **La ronda 2 no empieza, y la misión no está terminada, hasta que el último push esté
+    en verde.**
 
     ![Resultado en GitHub](docs/img/27-desktop-resultado.png)
 

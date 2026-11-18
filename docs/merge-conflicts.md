@@ -169,6 +169,13 @@ escrito. Pueden dejarlo así: guarden y cierren el editor para terminar el commi
 No hagan `git commit` hasta que `pytest` pase. Si falla, sigan editando el archivo con
 conflicto (o los archivos relacionados) hasta que los tests pasen.
 
+**Después del push, revisen GitHub Actions** (ver la sección "GitHub Actions" del README).
+Actions corre los tests en GitHub uno o dos minutos después del push, así que no se puede
+revisar antes: por eso antes del push se corre `pytest` en su computador. Esperen a que el
+check quede en **verde**. Si queda en rojo, entren a la pestaña **Actions** para ver qué
+test falló, arréglenlo, hagan commit y vuelvan a hacer push. La ronda 2 no empieza, y la
+misión no está terminada, hasta que el último push esté en verde.
+
 ## 8. Errores comunes
 
 - **Dejar los marcadores** (`<<<<<<<`, `=======`, `>>>>>>>`) en el código: el archivo

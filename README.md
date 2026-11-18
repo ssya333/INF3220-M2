@@ -29,7 +29,7 @@ funciona todo esto. Lo que sigue es solo un resumen para consultar mientras trab
 
 ## 3. Setup
 
-**Antes de la clase**, cada integrante necesita:
+**Antes de empezar**, cada integrante necesita:
 
 - Una cuenta de GitHub.
 - Git y Python 3.10 o superior instalados. Para revisar si ya los tienen, abran una
@@ -138,6 +138,9 @@ funciona todo esto. Lo que sigue es solo un resumen para consultar mientras trab
    - **Al correr la app o los tests aparece `ModuleNotFoundError: No module named ...`**
      (por ejemplo, `dotenv` o `flask`): es casi seguro que el entorno **no está
      activado**. Actívenlo y vuelvan a intentar.
+   - **Si su problema no está en esta lista, o nada de esto les funciona:** pregunten en
+     el foro de preguntas de la tarea de la Misión 2 en Canvas, con un pantallazo del comando y del error, e indiquen su
+     sistema operativo.
 6. **Revisar que git sepa quiénes son** (cada integrante, dentro de la carpeta del repo):
    ```bash
    git config user.email
@@ -178,7 +181,8 @@ funciona todo esto. Lo que sigue es solo un resumen para consultar mientras trab
    ```
    Al final deberían ver `79 passed`. **Todos los tests tienen que pasar**, ahora y antes
    de cada push. Si alguno falla antes de que hayan cambiado nada, revisen que el entorno
-   esté activado (ver paso 5); si sigue fallando, avísenle al equipo docente.
+   esté activado (ver paso 5); si sigue fallando, pregunten en
+   el foro de preguntas de la tarea de la Misión 2 en Canvas.
 10. **API key opcional**: si quieren que el bot use un LLM de verdad (Groq, gratis),
    sigan estos pasos. Sin key, la app funciona igual con un bot falso (`FakeLLMClient`)
    que responde con frases fijas. (No hace falta esto para entregar la misión).
@@ -413,7 +417,7 @@ En Ubuntu, `venv` viene en un paquete aparte (`python3-venv`): si `python3 -m ve
 da error, es porque falta ese paquete.
 
 Después de instalar, **cierren y vuelvan a abrir la terminal** y revisen de nuevo las
-versiones. Si sigue dando error, escríbanle al equipo docente con un pantallazo del
+versiones. Si sigue dando error, pregunten en el foro de preguntas de la tarea de la Misión 2 en Canvas, con un pantallazo del
 comando y del error, indicando su sistema operativo.
 
 ## 13. Anexo: conectar git con GitHub

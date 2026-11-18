@@ -8,6 +8,10 @@ tiene tres humores (todos poco profesionales) y un sistema de reclamos que, con 
 alguien lee. No lo deben construir desde cero, sino que lo reciben funcionando y lo deben dejar mejor de lo que lo
 encontraron.
 
+**Dudas:** cualquier duda relacionada con la misión (el setup, git, GitHub Desktop, los
+refactorings, los conflictos, la entrega o lo que sea) pueden preguntarla en el foro de
+preguntas de la tarea de la Misión 2 en Canvas.
+
 ## 2. Conceptos básicos
 
 Antes de empezar, vean la [cápsula de git](LINK-CAPSULA): ahí se explica con calma cómo

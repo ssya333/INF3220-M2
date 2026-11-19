@@ -14,7 +14,7 @@ preguntas de la tarea de la Misión 2 en Canvas.
 
 ## 2. Conceptos básicos
 
-Antes de empezar, vean la [cápsula de git](LINK-CAPSULA): ahí se explica con calma cómo
+Antes de empezar, vean la [cápsula de git](https://cursos.canvas.uc.cl/courses/106170/files/folder/Misiones/M2?preview=16496283): ahí se explica con calma cómo
 funciona todo esto. Lo que sigue es solo un resumen para consultar mientras trabajan.
 
 - **Commit:** una "foto" de los cambios que hicieron, guardada en el historial con un

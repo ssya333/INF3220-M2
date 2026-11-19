@@ -328,7 +328,13 @@ solo un ejemplo del formato:
 
 ![Pestaña Issues](docs/img/09-issue.png)
 
-Para cada uno: identifiquen el smell y apliquen el refactoring.
+En la misma issue va el **código para aplicar cada refactoring**, paso a paso (qué
+función reemplazar y por qué código), así que no necesitan saber programar en Python para
+hacerlo. Cada uno aplica solo su código, en su turno. El foco de esta misión no es
+inventar el refactoring, sino **trabajar en equipo**: respetar el orden de push, resolver
+los conflictos combinando el trabajo de todos y mantener los tests en verde. Si les
+interesa, lean el código antes de pegarlo y comparen con la tabla para entender qué
+problema resuelve.
 
 > **Importante:** varios refactorings tocan el mismo archivo o la misma función. Esto es
 > intencional: así se generan los conflictos de merge que tendrán que resolver.
@@ -338,7 +344,9 @@ Para cada uno: identifiquen el smell y apliquen el refactoring.
 Cuando un push sea rechazado, van a tener que hacer `git pull` y resolver el conflicto a
 mano. Sigan el tutorial paso a paso en [`docs/merge-conflicts.md`](docs/merge-conflicts.md), tiene un ejemplo real sacado de este mismo repo.
 
-Resolver un conflicto **no es elegir un lado**: el resultado tiene que conservar **todos**
+Para resolver un conflicto, **hablen con el compañero cuyo cambio chocó con el suyo**:
+pregúntenle qué cambió y revisen juntos el código de los dos en la issue. Resolver un
+conflicto **no es elegir un lado**: el resultado tiene que conservar **todos**
 los refactorings involucrados, combinados. Si al resolver se descarta el refactoring de un
 compañero, ese refactoring se considera no aplicado. Antes de commitear el merge:
 no puede quedar ningún marcador (`<<<<<<<`, `=======`, `>>>>>>>`) y `pytest` tiene que pasar.

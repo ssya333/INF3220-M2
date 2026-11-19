@@ -1,4 +1,4 @@
-"""Cliente de LLM: interfaz abstracta, implementación Groq y una falsa para tests."""
+# Conexión con el LLM (Groq) y una versión de prueba con respuestas fijas.
 
 from __future__ import annotations
 
@@ -45,9 +45,8 @@ class GroqClient(LLMClient):
         return response.json()["choices"][0]["message"]["content"]
 
 
+# Respuestas fijas usadas en tests.
 class FakeLLMClient(LLMClient):
-    """Respuestas fijas y chistosas. Usada en tests y como fallback sin API key."""
-
     def __init__(self) -> None:
         self._call_count = 0
 

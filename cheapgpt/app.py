@@ -1,4 +1,4 @@
-"""App factory de Flask y rutas de cheapGPT."""
+# App factory de Flask y rutas de cheapGPT.
 
 from __future__ import annotations
 

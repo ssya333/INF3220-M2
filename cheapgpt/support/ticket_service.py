@@ -1,4 +1,4 @@
-"""Registro de tickets de soporte (reclamos) con persistencia en memoria."""
+# Registro de tickets de soporte (reclamos) con persistencia en memoria.
 
 from __future__ import annotations
 
@@ -30,6 +30,9 @@ class TicketService:
         self._tickets: list[Ticket] = []
         self._counter = 0
 
+    def tickets_for(self, email: str) -> list[Ticket]:
+        return [ticket for ticket in self._tickets if ticket.email == email]
+
     def submit_complaint(
         self,
         name: str,
@@ -44,9 +47,6 @@ class TicketService:
         return self._register_ticket(
             name, email, message, channel, is_premium, previous_tickets, language, created_at
         )
-
-    def tickets_for(self, email: str) -> list[Ticket]:
-        return [ticket for ticket in self._tickets if ticket.email == email]
 
     def _register_ticket(self, name, email, message, channel, is_premium,
                           previous_tickets, language, created_at):

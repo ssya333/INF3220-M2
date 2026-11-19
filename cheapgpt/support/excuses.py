@@ -1,18 +1,10 @@
-"""Ruleta de Excusas: explicaciones oficiales de cheapGPT para cuando algo se cae."""
+# Ruleta de Excusas: explicaciones oficiales de cheapGPT para cuando algo se cae.
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-SERVICE_LABELS = {
-    "chat": "el chat",
-    "planes": "la pagina de planes",
-    "reclamos": "el sistema de reclamos",
-}
-
 BASE_REPAIR_DAYS = {"leve": 2, "grave": 7, "apocaliptica": 30}
-
-PLAN_PATIENCE_FACTOR = {"gratis": 3, "barato": 2, "premium_economico": 1}
 
 REASONS = {
     "leve": (
@@ -32,12 +24,26 @@ REASONS = {
     ),
 }
 
+SERVICE_LABELS = {
+    "chat": "el chat",
+    "planes": "la pagina de planes",
+    "reclamos": "el sistema de reclamos",
+}
+
+PLAN_PATIENCE_FACTOR = {"gratis": 3, "barato": 2, "premium_economico": 1}
+
 
 @dataclass(frozen=True)
 class Customer:
     name: str
     plan: str
     months_as_customer: int
+
+    def patience_factor(self) -> int:
+        factor = PLAN_PATIENCE_FACTOR[self.plan]
+        if self.months_as_customer == 0:
+            factor += 1
+        return factor
 
 
 @dataclass(frozen=True)
@@ -67,19 +73,23 @@ class ExcuseService:
         self._counter = 0
         self._history: list[Excuse] = []
 
+    def most_affected_service(self) -> str | None:
+        if not self._history:
+            return None
+        counts = {service: 0 for service in SERVICE_LABELS}
+        for excuse in self._history:
+            counts[excuse.service] += 1
+        return max(counts, key=counts.get)
+
     def generate(self, customer: Customer, service: str, severity: str, days_down: int) -> Excuse:
         if service not in SERVICE_LABELS:
             raise ValueError(f"Servicio invalido: {service}")
-        if severity not in BASE_REPAIR_DAYS:
-            raise ValueError(f"Gravedad invalida: {severity}")
         if days_down < 0:
             raise ValueError("Los dias caido no pueden ser negativos")
         if customer.plan not in PLAN_PATIENCE_FACTOR:
             raise ValueError(f"Plan invalido: {customer.plan}")
-
-        reason = self._pick_reason(service, severity, days_down)
-        repair_days = self._repair_days(service, severity, days_down) * self._patience_factor(customer)
-        compensation = self._compensation(customer)
+        if severity not in BASE_REPAIR_DAYS:
+            raise ValueError(f"Gravedad invalida: {severity}")
 
         self._counter += 1
         excuse = Excuse(
@@ -89,20 +99,12 @@ class ExcuseService:
             service=service,
             severity=severity,
             days_down=days_down,
-            reason=reason,
-            repair_days=repair_days,
-            compensation=compensation,
+            reason=self._pick_reason(service, severity, days_down),
+            repair_days=self._repair_days(service, severity, days_down) * customer.patience_factor(),
+            compensation=self._compensation(customer),
         )
         self._history.append(excuse)
         return excuse
-
-    def most_affected_service(self) -> str | None:
-        if not self._history:
-            return None
-        counts = {service: 0 for service in SERVICE_LABELS}
-        for excuse in self._history:
-            counts[excuse.service] += 1
-        return max(counts, key=counts.get)
 
     def _pick_reason(self, service: str, severity: str, days_down: int) -> str:
         reasons = REASONS[severity]
@@ -113,12 +115,6 @@ class ExcuseService:
         if service == "chat" and severity != "leve":
             days += 1
         return days
-
-    def _patience_factor(self, customer: Customer) -> int:
-        factor = PLAN_PATIENCE_FACTOR[customer.plan]
-        if customer.months_as_customer == 0:
-            factor += 1
-        return factor
 
     def _compensation(self, customer: Customer) -> str:
         if customer.plan == "premium_economico" and customer.months_as_customer >= 12:

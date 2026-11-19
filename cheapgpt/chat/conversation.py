@@ -1,4 +1,4 @@
-"""Historial acotado de mensajes de una conversación."""
+# Historial acotado de mensajes de una conversación.
 
 from dataclasses import dataclass
 
@@ -11,9 +11,8 @@ class Message:
     content: str
 
 
+# Guarda como máximo MAX_HISTORY_MESSAGES mensajes, descartando los más antiguos.
 class Conversation:
-    """Guarda como máximo MAX_HISTORY_MESSAGES mensajes, descartando los más antiguos."""
-
     def __init__(self) -> None:
         self._messages: list[Message] = []
 

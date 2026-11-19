@@ -1,4 +1,4 @@
-"""Cupo diario de mensajes del chat según el plan del usuario."""
+# Cupo diario de mensajes del chat según el plan del usuario.
 
 from __future__ import annotations
 
@@ -7,19 +7,21 @@ from typing import Callable
 
 PLANS = ("gratis", "barato", "premium_economico")
 
-_usage = {}
 
-
+# El usuario ya usó todos los mensajes de su plan por hoy.
 class QuotaExceededError(Exception):
-    """El usuario ya usó todos los mensajes de su plan por hoy."""
+    pass
+
+
+_usage = {}
 
 
 class MessageQuota:
     def __init__(self, clock: Callable[[], datetime]) -> None:
         self._clock = clock
 
+    # Descuenta un mensaje del cupo de hoy y devuelve cuántos quedan (None si es ilimitado).
     def register_message(self, user_id: str, plan: str, is_student: bool = False) -> int | None:
-        """Descuenta un mensaje del cupo de hoy y devuelve cuántos quedan (None si es ilimitado)."""
         global _usage
         if plan not in PLANS:
             raise ValueError(f"Plan invalido: {plan}")

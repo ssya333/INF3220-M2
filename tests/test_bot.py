@@ -4,9 +4,8 @@ from cheapgpt.chat.bot import CheapGPTBot
 from cheapgpt.llm.client import LLMClient
 
 
+# Devuelve una respuesta mas larga que el limite de truncado, para tests.
 class _LongReplyLLM(LLMClient):
-    """Devuelve una respuesta mas larga que el limite de truncado, para tests."""
-
     def complete(self, system_prompt, messages):
         return "x" * 300
 

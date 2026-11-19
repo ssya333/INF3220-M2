@@ -1,4 +1,4 @@
-"""Gestiona persona, historial de conversación y el cliente de LLM."""
+# Gestiona persona, historial de conversación y el cliente de LLM.
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Humores del bot, system prompt y formateo de respuestas."""
+# Humores del bot, system prompt y formateo de respuestas.
 
 from __future__ import annotations
 

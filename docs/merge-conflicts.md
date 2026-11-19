@@ -32,10 +32,11 @@ no los deja subir los suyos hasta que traigan esos commits y los combinen con su
 
 ## 3. Traer los cambios con `git pull`
 
-Para traer los commits del compañero y combinarlos con los suyos, corran `git pull`:
+Para traer los commits del compañero y combinarlos con los suyos, corran
+`git pull --no-edit`:
 
 ```
-$ git pull
+$ git pull --no-edit
 Auto-merging cheapgpt/chat/persona.py
 CONFLICT (content): Merge conflict in cheapgpt/chat/persona.py
 Automatic merge failed; fix conflicts and then commit the result.
@@ -44,6 +45,11 @@ Automatic merge failed; fix conflicts and then commit the result.
 Git trajo los commits de GitHub e intentó combinarlos con los suyos. Pudo combinar
 automáticamente todo lo demás, pero en `persona.py` los dos cambiaron las mismas líneas,
 así que les pide que resuelvan ese archivo a mano y después hagan commit.
+
+`--no-edit` evita que git abra un editor para escribir el mensaje del merge. Si no
+aparece ningún `CONFLICT`, es porque cambiaron partes distintas del código y git juntó
+todo solo: corran `pytest` y, si pasa, hagan `git push`. No necesitan seguir con este
+tutorial.
 
 ## 4. Leer los marcadores
 
@@ -159,12 +165,11 @@ uno. Úsenlos como punto de partida y después editen el resultado a mano.
 ```bash
 pytest                     # tienen que pasar todos los tests, sin excepción
 git add cheapgpt/chat/persona.py
-git commit                 # git ya deja escrito un mensaje de merge
+git commit -m "Resuelve conflicto en persona.py"
 git push
 ```
 
-`git commit` sin `-m` abre un editor con el mensaje `Merge branch 'main' of ...` ya
-escrito. Pueden dejarlo así: guarden y cierren el editor para terminar el commit.
+El commit del merge se hace igual que cualquier otro: con `-m` y un mensaje.
 
 No hagan `git commit` hasta que `pytest` pase. Si falla, sigan editando el archivo con
 conflicto (o los archivos relacionados) hasta que los tests pasen.
@@ -186,6 +191,9 @@ misión no está terminada, hasta que el último push esté en verde.
   su cambio no está.
 - **No correr los tests antes del push:** un merge mal resuelto rompe `main` para todo el
   equipo, y lo van a ver en rojo en la pestaña **Actions**.
+- **Se abrió una pantalla rara en la terminal** al hacer `git pull` o `git commit`: es Vim,
+  un editor que git abre para el mensaje del merge. Para salir, aprieten `Esc`, escriban
+  `:wq` y den Enter. Para que no pase, usen `git pull --no-edit` y `git commit -m "mensaje"`.
 - **Si se pierden a mitad de camino**, pueden cancelar todo y volver a intentarlo con calma:
   ```bash
   git merge --abort

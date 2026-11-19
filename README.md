@@ -284,8 +284,8 @@ refactorings (uno en la ronda 1, otro en la ronda 2).
 1. Al inicio de la ronda, los tres hacen `git pull`.
 2. Trabajan en paralelo en su refactoring.
 3. Pushean en el orden indicado: primero A, después B, después C.
-4. Si el push es rechazado (`! [rejected] ... (fetch first)`), sigan el tutorial en
-   [`docs/merge-conflicts.md`](docs/merge-conflicts.md).
+4. Si el push es rechazado (`! [rejected] ... (fetch first)`), hagan `git pull --no-edit`
+   y sigan el tutorial en [`docs/merge-conflicts.md`](docs/merge-conflicts.md).
 
 Si usan GitHub Desktop, los botones equivalentes están en el
 [Anexo: usar GitHub Desktop](#14-anexo-usar-github-desktop-en-vez-de-la-terminal).
@@ -341,8 +341,12 @@ problema resuelve.
 
 ## 10. Resolución de conflictos
 
-Cuando un push sea rechazado, van a tener que hacer `git pull` y resolver el conflicto a
-mano. Sigan el tutorial paso a paso en [`docs/merge-conflicts.md`](docs/merge-conflicts.md), tiene un ejemplo real sacado de este mismo repo.
+Cuando un push sea rechazado, van a tener que hacer `git pull --no-edit` y resolver el
+conflicto a mano. Sigan el tutorial paso a paso en [`docs/merge-conflicts.md`](docs/merge-conflicts.md), tiene un ejemplo real sacado de este mismo repo.
+
+`--no-edit` evita que git abra un editor para escribir el mensaje del merge. Si
+`git pull --no-edit` no muestra ningún `CONFLICT`, es porque cambiaron partes distintas
+del código y git juntó todo solo: corran `pytest` y, si pasa, hagan `git push`.
 
 Para resolver un conflicto, **hablen con el compañero cuyo cambio chocó con el suyo**:
 pregúntenle qué cambió y revisen juntos el código de los dos en la issue. Resolver un
